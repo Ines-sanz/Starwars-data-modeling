@@ -8,6 +8,14 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
+class Followers(Base):
+    __tablename__ = 'followers'
+    id = Column(Integer, primary_key=True)
+    from_id = Column(Integer, ForeignKey('users.id'))
+    to_id = Column(Integer, ForeignKey('users.id'))
+    from_user = relationship('Users', foreign_keys=[from_id], backref="follower")
+    to_user = relationship('Users', foreign_keys=[to_id], backref="following")
+
 class Users(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
